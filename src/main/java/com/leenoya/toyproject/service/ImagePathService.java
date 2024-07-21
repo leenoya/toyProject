@@ -11,15 +11,21 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class ImagePathService {
     private final SerApiClient serApiClient;
     private final ImagePathRepository imagePathRepository;
-    public String getImages() throws JsonProcessingException {
+    public List<ImagePath> saveImagePathInfo() throws JsonProcessingException {
         serApiDto dto = serApiClient.getImages("Apple", "google_images", 0);
         ObjectMapper objectMapper = new ObjectMapper();
+        List<ImagePath> res = new ArrayList<>();
+
         for (ImagesResult result : dto.getImages_results()) {
             ImagePath path = ImagePath.builder()
                     .position(result.getPosition())
@@ -37,8 +43,21 @@ public class ImagePathService {
                     .is_product(result.is_product())
                     .build();
             ImagePath saveImagePath = imagePathRepository.save(path);
-            System.out.println(saveImagePath);
+            res.add(path);
         }
-        return dto.getImages_results().toString();
+
+        return res;
+    }
+
+    public Optional<ImagePath> getImagePath(long srl) {
+        return imagePathRepository.findById(srl);
+    }
+
+    public List<ImagePath> getAllImagePath() {
+        return imagePathRepository.findAll();
+    }
+
+    public void deleteImagePathById(Long srl) {
+        imagePathRepository.deleteById(srl);
     }
 }
