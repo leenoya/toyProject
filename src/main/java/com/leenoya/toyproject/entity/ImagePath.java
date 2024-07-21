@@ -1,4 +1,4 @@
-package com.leenoya.toyProject.entity;
+package com.leenoya.toyproject.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

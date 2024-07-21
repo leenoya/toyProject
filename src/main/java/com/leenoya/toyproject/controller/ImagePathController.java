@@ -1,8 +1,8 @@
-package com.leenoya.toyProject.controller;
+package com.leenoya.toyproject.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.leenoya.toyProject.entity.ImagePath;
-import com.leenoya.toyProject.service.ImagePathService;
+import com.leenoya.toyproject.entity.ImagePath;
+import com.leenoya.toyproject.service.ImagePathService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,12 +1,12 @@
-package com.leenoya.toyProject.service;
+package com.leenoya.toyproject.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.leenoya.toyProject.client.SerApiClient;
-import com.leenoya.toyProject.dto.ImagesResult;
-import com.leenoya.toyProject.dto.serApiDto;
-import com.leenoya.toyProject.entity.ImagePath;
-import com.leenoya.toyProject.repository.ImagePathRepository;
+import com.leenoya.toyproject.client.SerApiClient;
+import com.leenoya.toyproject.dto.ImagesResult;
+import com.leenoya.toyproject.dto.serApiDto;
+import com.leenoya.toyproject.entity.ImagePath;
+import com.leenoya.toyproject.repository.ImagePathRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

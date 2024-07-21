@@ -1,6 +1,6 @@
-package com.leenoya.toyProject.client;
+package com.leenoya.toyproject.client;
 
-import com.leenoya.toyProject.dto.serApiDto;
+import com.leenoya.toyproject.dto.serApiDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
