@@ -11,12 +11,22 @@ spring:
       ddl-auto: update  # 테이블 생성 및 스키마 수정 옵션 설정
     properties:
       hibernate:
-        ddl-auto: true # 기존 테이블 삭제 후 생성(필요 시 false 로 변경)
+        ddl-auto: false # 기존 테이블 삭제 후 생성(필요 시 false 로 변경)
         show_sql: true  # sql 쿼리를 보여줌
         format_sql: true  # sql query formatting
         use_sql_comments: true  # sql 쿼리의 추가정보
         dialect: org.hibernate.dialect.MySQL8Dialect  # 사용할 Hibernate Dialect 설정
         use-new-id-generator-mappings: false
+  kafka: # Kafka Template 설정
+    bootstrap-servers: localhost:9094
+    consumer:
+      group-id: test-group # groupId 지정
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 logging:
   level:
@@ -25,3 +35,6 @@ logging:
         type:
           descriptor:
             sql: trace  # query의 ?에 어떤 값이 들어가는지 추적할 설정, TRACE Log에 값을 보여줌.
+
+server:
+  port: 9090

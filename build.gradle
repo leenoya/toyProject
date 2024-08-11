@@ -38,9 +38,12 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	// Lombok 애노테이션 프로세서
 	annotationProcessor 'org.projectlombok:lombok'
+	// Spring Kafka
+	implementation 'org.springframework.kafka:spring-kafka'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testImplementation 'org.springframework.kafka:spring-kafka-test'
 }
 
 dependencyManagement {
