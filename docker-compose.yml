@@ -1,17 +1,62 @@
 version: '3.8'
 
 services:
+  # mysql 설정
   mysql:
-    image: mysql:8.0
-    container_name: mysqlDB
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_DATABASE: dev
-    ports:
+    image: mysql:8.0 # mysql Version
+    container_name: mysqlDB # 컨테이너명
+    restart: always # 재시작 여부 항상
+    environment: # 설정값
+      MYSQL_ROOT_PASSWORD: 1234 # pwd
+      MYSQL_DATABASE: dev # database name
+    ports: # 내부 포트 : 도커 내 포트
       - "8888:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+
+  # 주키퍼 설정
+  zookeeper-0:
+    image: bitnami/zookeeper:latest
+    container_name: zookeeper-0 # 컨테이너명
+    ports: # 외부 : 내부 포트 설정
+      - 2181:2181
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181 # 주키퍼의 수신포트
+      ALLOW_ANONYMOUS_LOGIN: yes # 누구나 접속 가능하도록
+  # 카프카 설정
+  kafka-0:
+    image: bitnami/kafka:latest
+    container_name: kafka-0 # 컨테이너 명
+    ports:
+      - 9094:9094
+    environment:
+      ALLOW_PLAINTEXT_LISTENER: no
+      KAFKA_ENABLE_KRAFT: no
+      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper-0:2181
+      KAFKA_CFG_LISTENERS: PLAINTEXT://:9092,EXTERNAL://:9094
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka-0:9092,EXTERNAL://localhost:9094
+      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_CFG_LISTENER_NAME: EXTERNAL
+      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL: SSL
+      KAFKA_CFG_SSL_KEY_PASSWORD: key_password
+      KAFKA_CFG_SSL_KEYSTORE_LOCATION: /path/to/keystore
+      KAFKA_CFG_SSL_KEYSTORE_PASSWORD: keystore_password
+      KAFKA_CFG_SSL_TRUSTSTORE_LOCATION: /path/to/truststore
+      KAFKA_CFG_SSL_TRUSTSTORE_PASSWORD: trust_password
+  # 카프카 ui 설정
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    depends_on:
+      - kafka-0
+    ports:
+      - 8080:8080
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka-0:9092
+      KAFKA_CLUSTERS_0_SECURITY_PROTOCOL: SSL
+      KAFKA_CLUSTERS_0_SSL_TRUSTSTORE_LOCATION: /path/to/truststore
+      KAFKA_CLUSTERS_0_SSL_TRUSTSTORE_PASSWORD: trust_password
 
 volumes:
   mysql_data:
