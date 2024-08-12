@@ -10,8 +10,7 @@ public class KafkaResultDto {
     @Override
     public String toString() {
         return "{" +
-                "\"kafka_srl\":" + kafka_srl +
-                ", \"message\":\"" + message + '\"' +
+                "\"message\":\"" + message + '\"' +
                 ", \"data\":\"" + data + '\"' +
                 '}';
     }

@@ -20,7 +20,9 @@ public class Consumer {
             // JSON 문자열을 원하는 객체로 변환
             KafkaResultDto result = objectMapper.readValue(message, KafkaResultDto.class);
             System.out.println("result.getData() = " + result.getData());
-            repository.save(KafkaResult.builder().message(result.getMessage()).data(result.getData()).build());
+            repository.save(KafkaResult.builder()
+                    .message(result.getMessage())
+                    .data(result.getData()).build());
         } catch (Exception e) {
             e.printStackTrace();
         }

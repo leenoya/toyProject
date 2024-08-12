@@ -18,7 +18,7 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect  # 사용할 Hibernate Dialect 설정
         use-new-id-generator-mappings: false
   kafka: # Kafka Template 설정
-    bootstrap-servers: localhost:9094
+    bootstrap-servers: localhost:9094,localhost:9095,localhost:9096
     consumer:
       group-id: test-group # groupId 지정
       auto-offset-reset: earliest
@@ -27,6 +27,7 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      batch-size: 1
 
 logging:
   level:

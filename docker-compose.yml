@@ -43,17 +43,57 @@ services:
       KAFKA_CFG_SSL_KEYSTORE_PASSWORD: keystore_password
       KAFKA_CFG_SSL_TRUSTSTORE_LOCATION: /path/to/truststore
       KAFKA_CFG_SSL_TRUSTSTORE_PASSWORD: trust_password
+  kafka-1:
+    image: bitnami/kafka:latest
+    container_name: kafka-1 # 컨테이너 명
+    ports:
+      - 9095:9095
+    environment:
+      ALLOW_PLAINTEXT_LISTENER: no
+      KAFKA_ENABLE_KRAFT: no
+      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper-0:2181
+      KAFKA_CFG_LISTENERS: PLAINTEXT://:9092,EXTERNAL://:9095
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka-1:9092,EXTERNAL://localhost:9095
+      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_CFG_LISTENER_NAME: EXTERNAL
+      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL: SSL
+      KAFKA_CFG_SSL_KEY_PASSWORD: key_password
+      KAFKA_CFG_SSL_KEYSTORE_LOCATION: /path/to/keystore
+      KAFKA_CFG_SSL_KEYSTORE_PASSWORD: keystore_password
+      KAFKA_CFG_SSL_TRUSTSTORE_LOCATION: /path/to/truststore
+      KAFKA_CFG_SSL_TRUSTSTORE_PASSWORD: trust_password
+  kafka-2:
+    image: bitnami/kafka:latest
+    container_name: kafka-2 # 컨테이너 명
+    ports:
+      - 9096:9096
+    environment:
+      ALLOW_PLAINTEXT_LISTENER: no
+      KAFKA_ENABLE_KRAFT: no
+      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper-0:2181
+      KAFKA_CFG_LISTENERS: PLAINTEXT://:9092,EXTERNAL://:9096
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka-2:9092,EXTERNAL://localhost:9096
+      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_CFG_LISTENER_NAME: EXTERNAL
+      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL: SSL
+      KAFKA_CFG_SSL_KEY_PASSWORD: key_password
+      KAFKA_CFG_SSL_KEYSTORE_LOCATION: /path/to/keystore
+      KAFKA_CFG_SSL_KEYSTORE_PASSWORD: keystore_password
+      KAFKA_CFG_SSL_TRUSTSTORE_LOCATION: /path/to/truststore
+      KAFKA_CFG_SSL_TRUSTSTORE_PASSWORD: trust_password
   # 카프카 ui 설정
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
     container_name: kafka-ui
     depends_on:
       - kafka-0
+      - kafka-1
+      - kafka-2
     ports:
       - 8080:8080
     environment:
       KAFKA_CLUSTERS_0_NAME: local
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka-0:9092
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka-0:9092,kafka-1:9092,kafka-2:9092
       KAFKA_CLUSTERS_0_SECURITY_PROTOCOL: SSL
       KAFKA_CLUSTERS_0_SSL_TRUSTSTORE_LOCATION: /path/to/truststore
       KAFKA_CLUSTERS_0_SSL_TRUSTSTORE_PASSWORD: trust_password
