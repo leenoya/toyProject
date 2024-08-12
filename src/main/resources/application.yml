@@ -5,7 +5,7 @@ spring:
     url: jdbc:mysql://localhost:8888/dev?serverTimezone=Asia/Seoul
     username: root  # username 정보
     password: 1234 # password 정보
-  ## JPA Setting Info
+  # JPA Setting Info
   jpa:
     hibernate:
       ddl-auto: update  # 테이블 생성 및 스키마 수정 옵션 설정
